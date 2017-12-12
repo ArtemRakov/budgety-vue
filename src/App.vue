@@ -32,12 +32,12 @@
         <div class="bottom">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type">
+                    <select class="add__type" v-model='type'>
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
-                    <input type="text" class="add__description" placeholder="Add description">
-                    <input type="number" class="add__value" placeholder="Value">
+                    <input type="text" v-model='description' class="add__description" placeholder="Add description">
+                    <input type="number" v-model='value' class="add__value" placeholder="Value">
                     <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
                 </div>
             </div>
@@ -107,7 +107,23 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            type: 'inc',
+            description: '',
+            value: '',
+            data: {
+                allItems: {
+                    exp: [],
+                    inc: []
+                },
+                totals: {
+                    exp: 0,
+                    inc: 0
+                },
+            }
+        }
+    }
 }
 </script>
 
