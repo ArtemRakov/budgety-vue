@@ -5,7 +5,7 @@
         <div class="item__value">{{item | itemShow}}</div>
         <div v-if="item.type === 'exp'" class="item__percentage">{{item.percentage}}%</div>
         <div class="item__delete">
-            <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+            <button @click='deleteItem' class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
         </div>
     </div>
   </div>
@@ -13,6 +13,11 @@
 
 <script>
 export default {
-  props: ['item']
+  props: ['item'],
+  methods: {
+    deleteItem() {
+      this.$emit('deleteItem', this.item)
+    }
+  }
 }
 </script>

@@ -47,7 +47,7 @@
                     <h2 class="icome__title">Income</h2>
                     
                     <div class="income__list">
-                       <app-item :item="item" v-for="item in items.allItems.inc" :key="item.type + '-' + item.id"></app-item>
+                       <app-item :item="item" @deleteItem='updateItems' v-for="item in items.allItems.inc" :key="item.type + '-' + item.id"></app-item>
                         
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <h2 class="expenses__title">Expenses</h2>
                     
                     <div class="expenses__list">
-                        <app-item :item="item" v-for="item in items.allItems.exp" :key="item.type + '-' + item.id" ></app-item>
+                        <app-item :item="item" @deleteItem='updateItems' v-for="item in items.allItems.exp" :key="item.type + '-' + item.id" ></app-item>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,21 @@ export default {
                 totalExp += element.value
             });
             this.items.totals.exp = totalExp
+        },
+        updateItems(item) {
+            var foundIndex;
+            var ids = this.items.allItems[item.type].map(item => {
+                return item.id
+            })
+            ids.forEach((id, index) => {
+                if (id === item.id) {
+                    foundIndex = index
+                }
+            })
+            this.items.allItems[item.type].splice(foundIndex, 1)
+            this.updateBudget()
         }
+
     },
     components: {
         appItem: Item
