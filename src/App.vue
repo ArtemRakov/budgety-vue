@@ -65,18 +65,16 @@
                     <h2 class="expenses__title">Expenses</h2>
                     
                     <div class="expenses__list">
-                        <div class="item clearfix" id="expense-0">
-                            <div class="item__description">Apartment rent</div>
+                        <div class="item clearfix" :id="'expense-' + item.id" v-for="item in items.allItems.exp">
+                            <div class="item__description">{{item.description}}</div>
                             <div class="right clearfix">
-                                <div class="item__value">- 900.00</div>
-                                <div class="item__percentage">21%</div>
+                                <div class="item__value">{{item.value}}</div>
+                                <div class="item__percentage">{{item.percentage}}%</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -114,7 +112,8 @@ export default {
                     id: id,
                     value: this.value,
                     description: this.description,
-                    type: this.type
+                    type: this.type,
+                    percentage: 1
                 }
                 this.items.allItems[this.type].push(item)
                 this.value = ''
