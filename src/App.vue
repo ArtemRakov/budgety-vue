@@ -12,7 +12,7 @@
                 <div class="budget__income clearfix">
                     <div class="budget__income--text">Income</div>
                     <div class="right">
-                        <div class="budget__income--value">{{ items.totals.inc }}</div>
+                        <div class="budget__income--value">{{ items.totals.inc | plus }}</div>
                         <div class="budget__income--percentage">&nbsp;</div>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="budget__expenses clearfix">
                     <div class="budget__expenses--text">Expenses</div>
                     <div class="right clearfix">
-                        <div class="budget__expenses--value">{{items.totals.exp}}</div>
+                        <div class="budget__expenses--value">{{ items.totals.exp * -1 | plus }}</div>
                         <div class="budget__expenses--percentage">{{ totalPercentage }}%</div>
                     </div>
                 </div>
@@ -103,6 +103,7 @@ export default {
                 this.value = ''
                 this.description = ''
                 this.updateBudget()
+                this.updatePercentages()
         },
         updateBudget() {
             var totalInc = 0
