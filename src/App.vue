@@ -47,17 +47,8 @@
                     <h2 class="icome__title">Income</h2>
                     
                     <div class="income__list">
-                       
+                       <app-income :item="item" v-for="item in items.allItems.inc" :key="'income-' + item.id"></app-income>
                         
-                        <div class="item clearfix" :id="'income-' + item.id" v-for="item in items.allItems.inc">
-                            <div class="item__description">{{item.description}}</div>
-                            <div class="right clearfix">
-                                <div class="item__value">{{item.value}}</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -65,16 +56,7 @@
                     <h2 class="expenses__title">Expenses</h2>
                     
                     <div class="expenses__list">
-                        <div class="item clearfix" :id="'expense-' + item.id" v-for="item in items.allItems.exp">
-                            <div class="item__description">{{item.description}}</div>
-                            <div class="right clearfix">
-                                <div class="item__value">{{item.value}}</div>
-                                <div class="item__percentage">{{item.percentage}}%</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
+                        <app-expense :item="item" v-for="item in items.allItems.exp" :key="'expense-' + item.id" ></app-expense>
                     </div>
                 </div>
             </div>
@@ -83,6 +65,8 @@
 </template>
 
 <script>
+import Expense from "./components/Expense.vue";
+import Income from "./components/Income.vue";
 export default {
     data() {
         return {
@@ -105,7 +89,7 @@ export default {
         addItem() {
                 var id = 0
                 var array  = this.items.allItems[this.type]
-                if (array.length> 0) {
+                if (array.length > 0) {
                     id = array[array.length - 1].id + 1
                 }
                 var item = {
@@ -118,7 +102,14 @@ export default {
                 this.items.allItems[this.type].push(item)
                 this.value = ''
                 this.description = ''
+        },
+        updateBudget() {
+
         }
+    },
+    components: {
+        appIncome: Income,
+        appExpense: Expense
     }
 }
 </script>
