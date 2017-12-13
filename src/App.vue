@@ -12,7 +12,7 @@
                 <div class="budget__income clearfix">
                     <div class="budget__income--text">Income</div>
                     <div class="right">
-                        <div class="budget__income--value">{{items.totals.inc}}</div>
+                        <div class="budget__income--value">{{ items.totals.inc }}</div>
                         <div class="budget__income--percentage">&nbsp;</div>
                     </div>
                 </div>
@@ -128,13 +128,19 @@ export default {
             })
             this.items.allItems[item.type].splice(foundIndex, 1)
             this.updateBudget()
+            this.updatePercentages()
+        },
+        updatePercentages() {
+            this.items.allItems['exp'].forEach(item => {
+                item.percentage = this.items.totals.inc > 0 ? Math.round(item.value / this.items.totals.inc * 100) : -1
+            })
         }
 
     },
     computed: {
         totalPercentage() {
             if (this.items.totals.inc > 0) {
-                return Math.round(this.items.totals.exp / this.items.totals.inc * 100) 
+                return Math.round(this.items.totals.exp / this.items.totals.inc * 100)
             }
             else {
                 return 0
