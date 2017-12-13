@@ -7,7 +7,7 @@
                     Available Budget in <span class="budget__title--month">%Month%</span>:
                 </div>
                 
-                <div class="budget__value">{{ items.totals.inc - items.totals.exp }}</div>
+                <div class="budget__value">{{ items.totals.inc - items.totals.exp | plus }}</div>
                 
                 <div class="budget__income clearfix">
                     <div class="budget__income--text">Income</div>
@@ -32,13 +32,13 @@
         <div class="bottom">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type" v-model='type'>
+                    <select class="add__type" v-model='type' :class="{red_focus: type === 'exp'}">
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
-                    <input type="text" v-model='description' class="add__description" placeholder="Add description">
-                    <input type="number" v-model='value' class="add__value" placeholder="Value">
-                    <button class="add__btn" @click='addItem'><i class="ion-ios-checkmark-outline"></i></button>
+                    <input type="text" v-model='description' :class="{red_focus: type === 'exp'}" class="add__description" placeholder="Add description">
+                    <input type="number" :class="{red_focus: type === 'exp'}" v-model='value' class="add__value" placeholder="Value">
+                    <button class="add__btn" :class="{red: type === 'exp'}" @click='addItem'><i class="ion-ios-checkmark-outline"></i></button>
                 </div>
             </div>
             
@@ -97,7 +97,7 @@ export default {
                     value: parseFloat(this.value),
                     description: this.description,
                     type: this.type,
-                    percentage: 1
+                    percentage: Math.round(this.value / this.items.totals.inc * 100)
                 }
                 this.items.allItems[this.type].push(item)
                 this.value = ''
@@ -152,7 +152,7 @@ body {
 
 .right { float: right; }
 .red { color: #FF5049 !important; }
-.red-focus:focus { border: 1px solid #FF5049 !important; }
+.red_focus:focus { border: 1px solid #FF5049 !important; }
 
 /**********************************************
 *** TOP PART
