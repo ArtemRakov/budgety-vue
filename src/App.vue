@@ -4,7 +4,7 @@
   <div class="top">
             <div class="budget">
                 <div class="budget__title">
-                    Available Budget in <span class="budget__title--month">%Month%</span>:
+                    Available Budget in <span class="budget__title--month">{{month}}</span>:
                 </div>
                 
                 <div class="budget__value">{{ items.totals.inc - items.totals.exp | plus }}</div>
@@ -145,6 +145,12 @@ export default {
             else {
                 return 0
             }
+        },
+        month() {
+            var date = new Date()
+            var month = date.getMonth()
+            var arrayOfMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            return arrayOfMonth[month]
         }
     },
     components: {
