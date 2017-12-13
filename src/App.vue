@@ -94,7 +94,7 @@ export default {
                 }
                 var item = {
                     id: id,
-                    value: this.value,
+                    value: parseFloat(this.value),
                     description: this.description,
                     type: this.type,
                     percentage: 1
@@ -102,9 +102,19 @@ export default {
                 this.items.allItems[this.type].push(item)
                 this.value = ''
                 this.description = ''
+                this.updateBudget()
         },
         updateBudget() {
-
+            var totalInc = 0
+            this.items.allItems.inc.forEach(element => {
+                totalInc += element.value
+            });
+            this.items.totals.inc = totalInc
+            var totalExp = 0
+            this.items.allItems.exp.forEach(element => {
+                totalExp += element.value
+            });
+            this.items.totals.exp = totalExp
         }
     },
     components: {
