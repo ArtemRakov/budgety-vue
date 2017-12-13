@@ -47,7 +47,7 @@
                     <h2 class="icome__title">Income</h2>
                     
                     <div class="income__list">
-                       <app-income :item="item" v-for="item in items.allItems.inc" :key="'income-' + item.id"></app-income>
+                       <app-item :item="item" v-for="item in items.allItems.inc" :key="item.type + '-' + item.id"></app-item>
                         
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <h2 class="expenses__title">Expenses</h2>
                     
                     <div class="expenses__list">
-                        <app-expense :item="item" v-for="item in items.allItems.exp" :key="'expense-' + item.id" ></app-expense>
+                        <app-item :item="item" v-for="item in items.allItems.exp" :key="item.type + '-' + item.id" ></app-item>
                     </div>
                 </div>
             </div>
@@ -65,8 +65,7 @@
 </template>
 
 <script>
-import Expense from "./components/Expense.vue";
-import Income from "./components/Income.vue";
+import Item from "./components/Item.vue";
 export default {
     data() {
         return {
@@ -118,8 +117,7 @@ export default {
         }
     },
     components: {
-        appIncome: Income,
-        appExpense: Expense
+        appItem: Item
     }
 }
 </script>
