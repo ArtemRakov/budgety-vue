@@ -7,12 +7,12 @@
                     Available Budget in <span class="budget__title--month">%Month%</span>:
                 </div>
                 
-                <div class="budget__value">+ 2,345.64</div>
+                <div class="budget__value">{{ items.totals.inc - items.totals.exp }}</div>
                 
                 <div class="budget__income clearfix">
                     <div class="budget__income--text">Income</div>
                     <div class="right">
-                        <div class="budget__income--value">+ 4,300.00</div>
+                        <div class="budget__income--value">{{items.totals.inc}}</div>
                         <div class="budget__income--percentage">&nbsp;</div>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="budget__expenses clearfix">
                     <div class="budget__expenses--text">Expenses</div>
                     <div class="right clearfix">
-                        <div class="budget__expenses--value">- 1,954.36</div>
+                        <div class="budget__expenses--value">{{items.totals.exp}}</div>
                         <div class="budget__expenses--percentage">45%</div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     </select>
                     <input type="text" v-model='description' class="add__description" placeholder="Add description">
                     <input type="number" v-model='value' class="add__value" placeholder="Value">
-                    <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
+                    <button class="add__btn" @click='addItem'><i class="ion-ios-checkmark-outline"></i></button>
                 </div>
             </div>
             
@@ -49,27 +49,15 @@
                     <div class="income__list">
                        
                         
-                        <div class="item clearfix" id="income-0">
-                            <div class="item__description">Salary</div>
+                        <div class="item clearfix" :id="'income-' + item.id" v-for="item in items.allItems.inc">
+                            <div class="item__description">{{item.description}}</div>
                             <div class="right clearfix">
-                                <div class="item__value">+ 2,100.00</div>
+                                <div class="item__value">{{item.value}}</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="item clearfix" id="income-1">
-                            <div class="item__description">Sold car</div>
-                            <div class="right clearfix">
-                                <div class="item__value">+ 1,500.00</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                       
-                        
                     </div>
                 </div>
                 
@@ -88,16 +76,7 @@
                             </div>
                         </div>
 
-                        <div class="item clearfix" id="expense-1">
-                            <div class="item__description">Grocery shopping</div>
-                            <div class="right clearfix">
-                                <div class="item__value">- 435.28</div>
-                                <div class="item__percentage">10%</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -112,7 +91,7 @@ export default {
             type: 'inc',
             description: '',
             value: '',
-            data: {
+            items: {
                 allItems: {
                     exp: [],
                     inc: []
@@ -122,6 +101,24 @@ export default {
                     inc: 0
                 },
             }
+        }
+    },
+    methods: {
+        addItem() {
+                var id = 0
+                var array  = this.items.allItems[this.type]
+                if (array.length> 0) {
+                    id = array[array.length - 1].id + 1
+                }
+                var item = {
+                    id: id,
+                    value: this.value,
+                    description: this.description,
+                    type: this.type
+                }
+                this.items.allItems[this.type].push(item)
+                this.value = ''
+                this.description = ''
         }
     }
 }
