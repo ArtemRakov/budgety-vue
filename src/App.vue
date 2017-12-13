@@ -21,7 +21,7 @@
                     <div class="budget__expenses--text">Expenses</div>
                     <div class="right clearfix">
                         <div class="budget__expenses--value">{{items.totals.exp}}</div>
-                        <div class="budget__expenses--percentage">45%</div>
+                        <div class="budget__expenses--percentage">{{ totalPercentage }}%</div>
                     </div>
                 </div>
             </div>
@@ -91,12 +91,13 @@ export default {
                 if (array.length > 0) {
                     id = array[array.length - 1].id + 1
                 }
+                var percentage = this.items.totals.inc > 0 ? Math.round(this.value / this.items.totals.inc * 100) : -1
                 var item = {
                     id: id,
                     value: parseFloat(this.value),
                     description: this.description,
                     type: this.type,
-                    percentage: Math.round(this.value / this.items.totals.inc * 100)
+                    percentage: percentage
                 }
                 this.items.allItems[this.type].push(item)
                 this.value = ''
@@ -129,6 +130,16 @@ export default {
             this.updateBudget()
         }
 
+    },
+    computed: {
+        totalPercentage() {
+            if (this.items.totals.inc > 0) {
+                return Math.round(this.items.totals.exp / this.items.totals.inc * 100) 
+            }
+            else {
+                return 0
+            }
+        }
     },
     components: {
         appItem: Item
