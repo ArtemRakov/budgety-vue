@@ -36,9 +36,23 @@
                         <option value="inc" selected>+</option>
                         <option value="exp">-</option>
                     </select>
-                    <input type="text" v-model='description' :class="{red_focus: type === 'exp'}" class="add__description" placeholder="Add description">
-                    <input type="number" :class="{red_focus: type === 'exp'}" v-model='value' class="add__value" placeholder="Value">
-                    <button class="add__btn" :class="{red: type === 'exp'}" @click='addItem'><i class="ion-ios-checkmark-outline"></i></button>
+                    <input 
+                        type="text" 
+                        v-model='description'
+                        :class="{red_focus: type === 'exp'}" 
+                        class="add__description" 
+                        placeholder="Add description"
+                        @blur='$v.description.$touch()'
+                        >
+                    <input 
+                        type="number"
+                        :class="{red_focus: type === 'exp'}"
+                        v-model.number='value' 
+                        @blur='$v.value.$touch()'
+                        class="add__value"
+                        placeholder="Value"
+                        >
+                    <button type="submit" class="add__btn" :disabled="$v.$invalid" :class="{red: type === 'exp', grey_btn: $v.$invalid}" @click='addItem'><i class="ion-ios-checkmark-outline"></i></button>
                 </div>
             </div>
             
@@ -66,6 +80,7 @@
 
 <script>
 import Item from "./components/Item.vue";
+import { required } from 'vuelidate/lib/validators';
 export default {
     data() {
         return {
@@ -156,6 +171,14 @@ export default {
     },
     components: {
         appItem: Item
+    },
+    validations: {
+        description: {
+            required
+        },
+        value: {
+            required
+        }
     }
 }
 </script>
@@ -189,6 +212,7 @@ body {
 .right { float: right; }
 .red { color: #FF5049 !important; }
 .red_focus:focus { border: 1px solid #FF5049 !important; }
+.red_border { border: 1px solid #FF5049 !important; }
 
 /**********************************************
 *** TOP PART
@@ -247,6 +271,11 @@ body {
     font-size: 13px;
     color: #444;
     margin-top: 2px;
+}
+
+.grey_btn {
+    color: #7F7F7F !important;
+    cursor: not-allowed !important;
 }
 
 .budget__income--value,
