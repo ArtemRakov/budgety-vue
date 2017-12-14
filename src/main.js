@@ -1,5 +1,8 @@
 import Vue from 'vue'
+import Vuelidate from 'vuelidate'
 import App from './App.vue'
+
+Vue.use(Vuelidate)
 
 Vue.filter('plus', function (value) {
   var abs = Math.abs(value)
